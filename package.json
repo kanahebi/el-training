@@ -8,5 +8,10 @@
     "esbuild": "^0.14.53",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.7"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --loader:.js=jsx",
+    "watch": "esbuild app/javascript/*.* --watch --bundle --outdir=app/assets/builds --loader:.js=jsx",
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
   }
 }
