@@ -20,7 +20,7 @@ services:
       - bundle-data:/usr/local/bundle:delegated
 
   postgres:
-    image: postgres:12.2
+    image: postgres:14
     stdin_open: true
     tty: true
     restart: always
