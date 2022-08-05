@@ -16,14 +16,14 @@ commands:
 jobs:
   build:
     docker:
-      - image: circleci/ruby:3.0-node
+      - image: cimg/ruby:3.1.2
     steps:
       - setup
 
   test:
     parallelism: 3
     docker:
-      - image: circleci/ruby:3.0-node
+      - image: cimg/ruby:3.1.2
       - image: circleci/postgres:14.0
         name: "db"
         environment:
