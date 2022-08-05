@@ -21,7 +21,6 @@ jobs:
       - setup
 
   test:
-    parallelism: 3
     docker:
       - image: cimg/ruby:3.1.2-node
         environment:
@@ -29,7 +28,6 @@ jobs:
           DB_PASS: ""
           DB_HOST: localhost
       - image: cimg/postgres:14.0
-        name: "db"
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: el_training_test
@@ -44,6 +42,9 @@ jobs:
       RAILS_ENV: test
     steps:
       - setup
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: rails db:create
           command: bundle exec rails db:create
