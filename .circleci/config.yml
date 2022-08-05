@@ -27,6 +27,7 @@ jobs:
         environment:
           DB_USER: postgres
           DB_PASS: ""
+          DB_HOST: localhost
       - image: cimg/postgres:14.0
         name: "db"
         environment:
