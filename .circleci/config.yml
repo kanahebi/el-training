@@ -24,11 +24,15 @@ jobs:
     parallelism: 3
     docker:
       - image: cimg/ruby:3.1.2-node
+        environment:
+          DB_USER: postgres
+          DB_PASS: ""
       - image: cimg/postgres:14.0
         name: "db"
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: el_training_test
+          POSTGRES_PASSWORD: ""
           POSTGRES_HOST_AUTH_METHOD: trust
     environment:
       BUNDLE_JOBS: "3"
