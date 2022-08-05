@@ -33,9 +33,10 @@ jobs:
     environment:
       BUNDLE_JOBS: "3"
       BUNDLE_RETRY: "3"
-      PGHOST: 127.0.0.1
-      PGUSER: postgres
-      PGPASSWORD: ""
+      PG_HOST: 127.0.0.1
+      PG_USER: postgres
+      PG_PASS: ""
+      DB_PORT: 5432
       RAILS_ENV: test
     steps:
       - setup
