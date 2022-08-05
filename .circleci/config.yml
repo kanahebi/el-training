@@ -41,6 +41,9 @@ jobs:
     steps:
       - setup
       - run:
+          name: rails db:create
+          command: bundle exec rails db:create
+      - run:
           name: rails db:migrate
           command: bundle exec rails db:migrate
       - run:
