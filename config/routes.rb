@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   end
 
   root to: 'front#index'
+  get 'tasks', to: 'front#index'
+  get 'tasks/:id', to: 'front#index'
 
   post "/graphql", to: "graphql#execute"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

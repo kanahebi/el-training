@@ -1,5 +1,6 @@
 import React from 'react'
 import { useQuery, gql } from "@apollo/client";
+import { Link } from "react-router-dom";
 
 const GET_TASKS = gql`
   query GetTasks {
@@ -20,10 +21,12 @@ export const Tasks = () => {
   return (
     <div>
       {data.tasks.map(task => (
-        <div key={task.id}>
-          <h1>{task.name}</h1>
-          <div>{task.description}</div>
-        </div>
+        <Link to={`/tasks/${task.id}`} key={task.id}>
+          <div>
+            <h1>{task.name}</h1>
+            <div>{task.description}</div>
+          </div>
+        </Link>
       ))}
     </div>
   )
