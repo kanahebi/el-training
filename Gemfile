@@ -72,6 +72,8 @@ group :development do
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+
+  gem "graphiql-rails"
 end
 
 group :test do
@@ -80,4 +82,3 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
-gem "graphiql-rails", group: :development
