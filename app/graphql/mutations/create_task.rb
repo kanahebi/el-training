@@ -3,17 +3,19 @@ module Mutations
     graphql_name 'CreateTask'
 
     field :task, Types::TaskType, null: true
-    field :result, Boolean, null: true
 
     argument :name, String, required: true
     argument :description, String, required: true
 
     def resolve(name:, description:)
-      task = Task.create(name: name, description: description)
-      {
-        task: task,
-        result: task.errors.blank?
-      }
+      task = Task.new(name: name, description: description)
+      if task.save
+        {
+          task: task
+        }
+      else
+        raise GraphQL::ExecutionError, task.errors.full_messages.join(", ")
+      end
     end
   end
 end

@@ -2,27 +2,31 @@ import React from 'react';
 import { gql, useMutation } from "@apollo/client";
 
 const CREATE_TASK = gql`
-  mutation createTask($name: String!, $description: String!) {
+  mutation CreateTask($name: String!, $description: String!) {
     createTask(
       input: {
         name: $name,
         description: $description
       }
     ){
-      result
+      task {
+        id
+        name
+        description
+      }
     }
   }
 `;
 
 export const NewTask = () => {
-	let inputName: HTMLInputElement;
-	let inputDescription: HTMLInputElement;
+  let inputName: HTMLInputElement;
+  let inputDescription: HTMLInputElement;
   const [createTask, { loading, error }] = useMutation(CREATE_TASK)
 
-	if (loading) return <p>Submitting...</p>;
-	if (error) return <p>Submission error! {error.message}</p>;
+  if (loading) return <p>Submitting...</p>;
+  if (error) return <p>Submission error! {error.message}</p>;
  
-	return (
+  return (
 
     <div>
       <form
@@ -53,5 +57,5 @@ export const NewTask = () => {
         <button type="submit">タスクを追加 </button>
       </form>
     </div>
-	);
+  );
 };
