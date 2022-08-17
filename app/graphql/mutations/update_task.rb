@@ -10,7 +10,8 @@ module Mutations
 
     def resolve(id:, name:, description:)
       task = Task.find(id)
-      raise GraphQL::ExecutionError, task.errors.full_messages.join(", ") unless task.update(name:, description:)
+      result = task.update(name:, description:)
+      raise GraphQL::ExecutionError, task.errors.full_messages.join(", ") unless result
 
       {
         task:
