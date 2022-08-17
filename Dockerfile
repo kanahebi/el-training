@@ -24,3 +24,4 @@ ENV LANG=ja_JP.UTF-8 \
     EDITOR=vim
 RUN gem update --system && \
     gem install --no-document bundler:2.3.10
+RUN bundle config set force_ruby_platform true
