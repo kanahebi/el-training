@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation, gql } from "@apollo/client";
 import { Link } from "react-router-dom";
+import { Modal } from "../components/Modal";
+import { Alert } from "../components/Alert";
 
 const GET_TASKS = gql`
   query GetTasks {
@@ -29,14 +31,47 @@ const DELETE_TASK = gql`
 `;
 
 export const Tasks = () => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [deleteID, setDeleteID] = useState('');
   const {loading, error, data} = useQuery(GET_TASKS);
-  const [deleteTask, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_TASK)
+  const [deleteTask, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_TASK,
+    {
+      update(cache, { data }) {
+        const existingTasks: any = cache.readQuery({ query: GET_TASKS });
+        const newTasks = existingTasks!.tasks.filter((t:any) => (t.id !== data.deleteTask.task.id));
+        cache.writeQuery({
+          query: GET_TASKS,
+          data: {
+            tasks: newTasks
+          }
+        });
+       }
+    });
+
+  const ShowModal = () => {
+    setShowModal(true);
+  };
+
+  useEffect(() => {
+    if(deleteConfirm) {
+      deleteTask({
+        variables: {
+          id: deleteID,
+        }
+      });
+      setShowAlert(true);
+    }
+  }, [deleteConfirm]);
 
   if (loading) return (<div>'ロード中....'</div>);
   if (error) return (<div>`Error ${error.message}`</div>);
+  if (mutationError) return (<div>`Error ${mutationError.message}`</div>);
 
   return (
     <div>
+      <Alert showFlag={showAlert} setShowAlert={setShowAlert} content="削除しました。" />
       {data.tasks.map(task => (
         <div key={task.id}>
           <Link to={`/tasks/${task.id}`}>
@@ -45,17 +80,17 @@ export const Tasks = () => {
               <div>{task.description}</div>
             </div>
           </Link>
-          <button
+          <button className='bg-red-600 hover:bg-red-700 text-white rounded px-4 py-2'
             onClick={() =>
-              deleteTask({
-                variables: {
-                  id: task.id,
-                }
-              })
+              {
+                setDeleteID(task.id);
+                ShowModal();
+              }
             }
           >削除</button>
         </div>
       ))}
+      <Modal showFlag={showModal} setShowModal={setShowModal} setDeleteConfirm={setDeleteConfirm} content="本当に削除しますか？" />
     </div>
   )
 };
