@@ -5,7 +5,7 @@ class ElTrainingSchema < GraphQL::Schema
   # For batch-loading (see https://graphql-ruby.org/dataloader/overview.html)
   use GraphQL::Dataloader
 
-  rescue_from(ActiveRecord::RecordNotFound) do |_err, _obj, _args, _ctx, field|
+  rescue_from(ActiveRecord::RecordNotFound) do |_err, _obj, _args, _ctx, _field|
     raise GraphQL::ExecutionError, "見つかりませんでした。"
   end
 

@@ -2,19 +2,20 @@ require 'rails_helper'
 
 RSpec.describe Mutations::DeleteTask do
   describe 'Mutations::DeleteTask' do
-    subject { ElTrainingSchema.execute(query, variables: variables) }
+    subject { ElTrainingSchema.execute(query, variables:) }
+
     let(:query) { '' }
     let(:variables) { {} }
 
     context 'DeleteTask Mutation' do
       let!(:task) { create(:task) }
       let(:id) { task.id }
-      let(:variables) {
+      let(:variables) do
         {
-          id: id,
+          id:
         }
-      }
-      let(:query) { 
+      end
+      let(:query) do
         <<~GRAPHQL
           mutation DeleteTask($id: ID!) {
             deleteTask(
@@ -30,7 +31,7 @@ RSpec.describe Mutations::DeleteTask do
             }
           }
         GRAPHQL
-      }
+      end
 
       it 'エラーが返ってこないこと' do
         expect(subject['errors']).to be_blank
@@ -48,7 +49,7 @@ RSpec.describe Mutations::DeleteTask do
         end
 
         it 'タスクが削除されていないこと' do
-          expect { subject }.to change(Task, :count).by(0)
+          expect { subject }.not_to change(Task, :count)
         end
       end
     end

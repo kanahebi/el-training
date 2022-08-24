@@ -6,12 +6,12 @@ RSpec.describe Task, type: :model do
 
     let(:name) { 'Name' }
     let(:description) { 'Description' }
-    let(:params) {
+    let(:params) do
       {
-        name: name,
-        description: description,
+        name:,
+        description:
       }
-    }
+    end
 
     it { is_expected.to be_valid }
 

@@ -24,6 +24,7 @@ RSpec.describe Task, type: :system, js: true do
 
     describe 'タスク詳細' do
       let(:task) { create(:task) }
+
       before do
         visit("/tasks/#{task.id}")
       end
@@ -44,14 +45,14 @@ RSpec.describe Task, type: :system, js: true do
         fill_in 'description', with: description
         click_button 'タスクを追加'
       end
-      
+
       let(:task_count) { Task.count }
       let(:name) { 'タスクの名前' }
       let(:description) { 'タスクの説明' }
 
       context 'フォームの入力値が正常' do
         it 'タスク詳細ページに遷移すること' do
-          expect(current_path).not_to eq "/tasks/new"
+          expect(page).to have_no_current_path "/tasks/new"
         end
       end
 
@@ -63,7 +64,7 @@ RSpec.describe Task, type: :system, js: true do
         end
 
         it 'ページ遷移しないこと' do
-          expect(current_path).to eq "/tasks/new"
+          expect(page).to have_current_path "/tasks/new"
         end
       end
 
@@ -75,7 +76,7 @@ RSpec.describe Task, type: :system, js: true do
         end
 
         it 'ページ遷移しないこと' do
-          expect(current_path).to eq "/tasks/new"
+          expect(page).to have_current_path "/tasks/new"
         end
       end
     end

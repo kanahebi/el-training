@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Mutations::UpdateTask do
   describe 'Mutations::UpdateTask' do
-    subject { ElTrainingSchema.execute(query, variables: variables) }
+    subject { ElTrainingSchema.execute(query, variables:) }
+
     let(:query) { '' }
     let(:variables) { {} }
 
@@ -11,14 +12,14 @@ RSpec.describe Mutations::UpdateTask do
       let(:id) { task.id }
       let(:name) { '更新後のタスクの名前' }
       let(:description) { '更新後のタスクの内容' }
-      let(:variables) {
+      let(:variables) do
         {
-          id: id,
-          name: name,
-          description: description
+          id:,
+          name:,
+          description:
         }
-      }
-      let(:query) { 
+      end
+      let(:query) do
         <<~GRAPHQL
           mutation UpdateTask($id: ID!, $name: String!, $description: String!) {
             updateTask(
@@ -36,7 +37,7 @@ RSpec.describe Mutations::UpdateTask do
             }
           }
         GRAPHQL
-      }
+      end
 
       it 'エラーが返ってこないこと' do
         expect(subject['errors']).to be_blank
@@ -45,7 +46,7 @@ RSpec.describe Mutations::UpdateTask do
       it 'タスクが更新されていること' do
         expect { subject }.to change { task.reload.name }.to(name)
       end
-  
+
       context '存在しないIDを指定' do
         let(:id) { 'ID1234' }
 
