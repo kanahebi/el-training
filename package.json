@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build:js": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --loader:.js=jsx",
-    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/tailwind.css",
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css",
     "failure:js": "rm ./app/assets/builds/application.js && rm ./app/assets/builds/application.js.map",
     "dev:js": "tsc-watch --noClear -p tsconfig.json --onSuccess \"yarn build:js\" --onFailure \"yarn failure:js\""
   },
