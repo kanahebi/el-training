@@ -4,6 +4,7 @@ services:
     build: "."
     stdin_open: true
     tty: true
+    hostname: web-server
     ports:
       - 3000:3000
     command: /bin/sh -c "bundle install && yarn install && rm -f tmp/pids/server.pid && bin/dev"
@@ -12,12 +13,22 @@ services:
       DB_PASS: postgres
       DB_HOST: postgres
       DB_PORT: 5432
+      SELENIUM_DRIVER_URL: http://selenium_chrome:4444/wd/hub
     depends_on:
       - postgres
+      - selenium_chrome
     volumes:
       - .:/el_training:delegated
       - node-modules:/el_training/node_modules:delegated
       - bundle-data:/usr/local/bundle:delegated
+
+  selenium_chrome:
+    image: seleniarm/standalone-chromium:latest
+    ports:
+      - "4444:4444"
+    shm_size: 2gb
+    logging:
+      driver: none
 
   postgres:
     image: postgres:14
