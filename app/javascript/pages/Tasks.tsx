@@ -72,7 +72,7 @@ export const Tasks = () => {
   return (
     <div>
       <Alert showFlag={showAlert} setShowAlert={setShowAlert} content="削除しました。" />
-      {data.tasks.map(task => (
+      {data.tasks.length ? (data.tasks.map(task => (
         <div key={task.id}>
           <Link to={`/tasks/${task.id}`}>
             <div>
@@ -89,7 +89,9 @@ export const Tasks = () => {
             }
           >削除</button>
         </div>
-      ))}
+      ))) : (
+        <div>タスクはありません。</div>
+      )}
       <Modal showFlag={showModal} setShowModal={setShowModal} setDeleteConfirm={setDeleteConfirm} content="本当に削除しますか？" />
     </div>
   )
