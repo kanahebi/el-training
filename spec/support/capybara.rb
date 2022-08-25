@@ -32,9 +32,10 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :system, js: true) do
-    Capybara.server_host = ENV.fetch("CAPYBARA_HOST")
-    Capybara.server_port = "4444"
+    if ENV['CIRCLECI']
+      Capybara.server_host = ENV.fetch("CAPYBARA_HOST")
+      Capybara.server_port = "4444"
+    end
     driven_by :remote_chrome
-    page.driver.browser.download_path = DownloadHelper::PATH.to_s if ENV['CIRCLECI']
   end
 end
