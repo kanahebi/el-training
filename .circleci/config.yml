@@ -68,6 +68,9 @@ jobs:
           name: yarn build:js
           command: yarn build:js
       - run:
+          name: yarn build:css
+          command: yarn build:css
+      - run:
           name: RuboCop
           command: bundle exec rubocop
       - run:
