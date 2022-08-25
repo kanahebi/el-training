@@ -29,6 +29,7 @@ jobs:
           DB_PASS: ""
           DB_HOST: 127.0.0.1
           SELENIUM_DRIVER_URL: http://selenium_chrome:4444/wd/hub
+          CAPYBARA_HOST: 127.0.0.1
       - image: cimg/postgres:14.0
         environment:
           POSTGRES_USER: postgres

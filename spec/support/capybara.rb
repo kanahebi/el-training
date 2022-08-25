@@ -23,7 +23,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :system, js: true) do
-    Capybara.server_host = 'web-server'
+    Capybara.server_host = ENV.fetch("CAPYBARA_HOST")
     Capybara.server_port = "4444"
     driven_by :remote_chrome
   end
