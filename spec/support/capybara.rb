@@ -32,7 +32,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :system, js: true) do
-    if ENV['CIRCLECI']
+    unless ENV['CIRCLECI']
       Capybara.server_host = ENV.fetch("CAPYBARA_HOST")
       Capybara.server_port = "4444"
     end
