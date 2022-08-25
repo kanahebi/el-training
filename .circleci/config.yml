@@ -12,9 +12,6 @@ commands:
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
-      - run:
-          command: chromedriver
-          background: true
 
 jobs:
   build:
@@ -22,6 +19,9 @@ jobs:
       - image: cimg/ruby:3.1.2-node
     steps:
       - setup
+      - run:
+          command: chromedriver
+          background: true
 
   test:
     docker:
