@@ -44,7 +44,7 @@ RSpec.describe Mutations::UpdateTask do
       end
 
       it 'タスクが更新されていること' do
-        expect { subject }.to change { task.reload.name }.to(name)
+        expect { subject }.to(change { task.reload.name }.to(name))
       end
 
       context '存在しないIDを指定' do
@@ -55,7 +55,7 @@ RSpec.describe Mutations::UpdateTask do
         end
 
         it 'タスクが更新されていないこと' do
-          expect { subject }.not_to change { task.reload.name }
+          expect { subject }.not_to(change { task.reload.name })
         end
       end
 
@@ -67,7 +67,7 @@ RSpec.describe Mutations::UpdateTask do
         end
 
         it 'タスクが更新されていないこと' do
-          expect { subject }.not_to change { task.reload.name }
+          expect { subject }.not_to(change { task.reload.name })
         end
       end
 
@@ -79,7 +79,7 @@ RSpec.describe Mutations::UpdateTask do
         end
 
         it 'タスクが更新されていないこと' do
-          expect { subject }.not_to change { task.reload.description }
+          expect { subject }.not_to(change { task.reload.description })
         end
       end
     end

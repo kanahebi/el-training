@@ -46,7 +46,7 @@ RSpec.describe Task, type: :system, js: true do
         click_button 'タスクを追加'
       end
 
-      let(:task_count) { Task.count }
+      let(:task_count) { described_class.count }
       let(:name) { 'タスクの名前' }
       let(:description) { 'タスクの説明' }
 

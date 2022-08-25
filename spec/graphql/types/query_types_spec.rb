@@ -32,7 +32,7 @@ RSpec.describe Types::QueryType do
       end
 
       it '作成したタスクが含まれていること' do
-        expect(subject['data']['tasks'].any? { |t| t['id'] == task.id }).to be_truthy
+        expect(subject['data']['tasks']).to(be_any { |t| t['id'] == task.id })
       end
 
       it '全てのタスクが返ってくること' do
