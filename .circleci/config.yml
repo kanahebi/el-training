@@ -19,8 +19,9 @@ jobs:
       - image: cimg/ruby:3.1.2-node
     steps:
       - setup
-      - name: Install chrome
-        run: |
+      - run:
+        name: Install chrome
+        command: |
           wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
           echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list
           apt update -y
