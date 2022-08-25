@@ -60,6 +60,9 @@ jobs:
           name: Database setup
           command: bundle exec rails db:schema:load --trace
       - run:
+          name: yarn build:js
+          command: yarn build:js
+      - run:
           name: RuboCop
           command: bundle exec rubocop
       - run:
