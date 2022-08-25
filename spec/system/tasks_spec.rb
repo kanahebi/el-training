@@ -60,7 +60,7 @@ RSpec.describe Task, type: :system, js: true do
         let(:name) { '' }
 
         it 'エラーが表示されること' do
-          expect(page).to have_content "Name can't be blank"
+          expect(page).to have_content "タスクの名前を入力してください"
         end
 
         it 'ページ遷移しないこと' do
@@ -72,7 +72,7 @@ RSpec.describe Task, type: :system, js: true do
         let(:description) { '' }
 
         it 'エラーが表示されること' do
-          expect(page).to have_content "Description can't be blank"
+          expect(page).to have_content "タスクの説明を入力してください"
         end
 
         it 'ページ遷移しないこと' do

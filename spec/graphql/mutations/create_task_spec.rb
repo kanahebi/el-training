@@ -47,7 +47,7 @@ RSpec.describe Mutations::CreateTask do
         let(:name) { '' }
 
         it 'エラーが返ってくること' do
-          expect(subject['errors'][0]['message']).to include("Name can't be blank")
+          expect(subject['errors'][0]['message']).to include("タスクの名前を入力してください")
         end
 
         it '新しいタスクが作成されていないこと' do
@@ -59,7 +59,7 @@ RSpec.describe Mutations::CreateTask do
         let(:description) { '' }
 
         it 'エラーが返ってくること' do
-          expect(subject['errors'][0]['message']).to include("Description can't be blank")
+          expect(subject['errors'][0]['message']).to include("タスクの説明を入力してください")
         end
 
         it '新しいタスクが作成されていないこと' do
