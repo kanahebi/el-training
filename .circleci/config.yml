@@ -16,23 +16,28 @@ commands:
 jobs:
   build:
     docker:
-      - image: cimg/ruby:3.1.2-node
+      - image: cimg/ruby:3.1.2-browsers
     steps:
       - setup
 
   test:
     docker:
-      - image: cimg/ruby:3.1.2-node
+      - image: cimg/ruby:3.1.2-browsers
+        name: web-server
         environment:
           DB_USER: postgres
           DB_PASS: ""
           DB_HOST: 127.0.0.1
+          SELENIUM_DRIVER_URL: http://selenium_chrome:4444/wd/hub
+          CAPYBARA_HOST: 127.0.0.1
       - image: cimg/postgres:14.0
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: el_training_test
           POSTGRES_PASSWORD: ""
           POSTGRES_HOST_AUTH_METHOD: trust
+      - image: seleniarm/standalone-chromium:latest
+        name: selenium_chrome
     environment:
       BUNDLE_JOBS: "3"
       BUNDLE_RETRY: "3"
@@ -42,6 +47,11 @@ jobs:
       RAILS_ENV: test
     steps:
       - setup
+      - run: 
+          name: Setup Chrome
+          command: |
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo apt install ./google-chrome-stable_current_amd64.deb
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
@@ -55,8 +65,22 @@ jobs:
           name: Database setup
           command: bundle exec rails db:schema:load --trace
       - run:
+          name: yarn build:js
+          command: yarn build:js
+      - run:
+          name: yarn build:css
+          command: yarn build:css
+      - run:
           name: RuboCop
           command: bundle exec rubocop
+      - run:
+          name: rspec test
+          command: bundle exec rspec
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
 
 workflows:
   version: 2
