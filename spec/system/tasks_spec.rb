@@ -20,6 +20,15 @@ RSpec.describe Task, type: :system, js: true do
           expect(page).to have_text('タスクはありません。')
         end
       end
+
+      context '並び順' do
+        let!(:task1) { create(:task, name: 'タスク1') }
+        let!(:task2) { create(:task, name: 'タスク2') }
+
+        it '作成日時の降順で表示されている' do
+          expect(page.text).to match(/#{task2.name}[\s\S]*#{task1.name}/)
+        end
+      end
     end
 
     describe 'タスク詳細' do
