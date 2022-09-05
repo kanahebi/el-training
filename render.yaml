@@ -13,9 +13,16 @@ services:
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma"
     envVars:
-      - key: DATABASE_URL
+      - key: DB_HOST
         fromDatabase:
           name: ELTraning
-          property: connectionString
+          property: host
       - key: RAILS_MASTER_KEY
         sync: false
+      - key: RAILS_SERVE_STATIC_FILES
+        value: true
+      - key: APP_HOST
+        fromService:
+          type: web
+          name: ELTraning
+          property: host
