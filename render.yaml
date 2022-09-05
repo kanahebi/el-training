@@ -22,7 +22,4 @@ services:
       - key: RAILS_SERVE_STATIC_FILES
         value: true
       - key: APP_HOST
-        fromService:
-          type: web
-          name: ELTraning
-          property: connectionString
+        value: eltraning.onrender.com
