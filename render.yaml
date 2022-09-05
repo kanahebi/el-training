@@ -1,0 +1,29 @@
+databases:
+  - name: ELTraning
+    databaseName: el_training_production
+    user: el_training
+    region: singapore
+
+services:
+  - type: web
+    name: ELTraning
+    env: ruby
+    region: singapore
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma"
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: ELTraning
+          property: host
+      - key: EL_TRAINING_DATABASE_PASSWORD
+        fromDatabase:
+          name: ELTraning
+          property: password
+      - key: SECRET_KEY_BASE
+        sync: false
+      - key: RAILS_SERVE_STATIC_FILES
+        value: true
+      - key: APP_HOST
+        value: eltraning.onrender.com
