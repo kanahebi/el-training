@@ -25,4 +25,4 @@ services:
         fromService:
           type: web
           name: ELTraning
-          property: host
+          property: connectionString
