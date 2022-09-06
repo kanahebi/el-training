@@ -9,6 +9,18 @@ const GET_TASK = gql`
       id
       name
       description
+      createdAt
+    }
+  }
+`;
+
+const GET_TASKS = gql`
+  query GetTasks {
+    tasks {
+      id
+      name
+      description
+      createdAt
     }
   }
 `;
@@ -24,6 +36,7 @@ const DELETE_TASK = gql`
         id
         name
         description
+        createdAt
       }
     }
   }
@@ -44,8 +57,18 @@ export const TaskView = () => {
   const [deleteTask, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_TASK,
     {
       update(cache, { data }) {
+        const existingTasks: any = cache.readQuery({ query: GET_TASKS });
+        if(existingTasks) {
+          const newTasks = existingTasks!.tasks.filter((t:any) => (t.id !== data.deleteTask.task.id));
+          cache.writeQuery({
+            query: GET_TASKS,
+            data: {
+              tasks: newTasks
+            }
+          });
+        }
         navigate(`/tasks/`, { state: { alert: '削除しました。' }},);
-       }
+      }
     });
 
   const ShowModal = () => {

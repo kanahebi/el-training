@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React from 'react';
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { useParams, useNavigate, Link } from 'react-router-dom'
 
@@ -8,6 +8,7 @@ const GET_TASK = gql`
       id
       name
       description
+      createdAt
     }
   }
 `;
@@ -25,6 +26,7 @@ const UPDATE_TASK = gql`
         id
         name
         description
+        createdAt
       }
     }
   }
