@@ -2,45 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation, gql } from "@apollo/client";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Modal } from "../components/Modal";
-
-const GET_TASK = gql`
-  query GetTask($id: ID!) {
-    task(id: $id) {
-      id
-      name
-      description
-      createdAt
-    }
-  }
-`;
-
-const GET_TASKS = gql`
-  query GetTasks {
-    tasks {
-      id
-      name
-      description
-      createdAt
-    }
-  }
-`;
-
-const DELETE_TASK = gql`
-  mutation DeleteTask($id: ID!) {
-    deleteTask(
-      input: {
-        id: $id
-      }
-    ){
-      task {
-        id
-        name
-        description
-        createdAt
-      }
-    }
-  }
-`;
+import { GET_TASK, GET_TASKS } from '../graphql/query'
+import { DELETE_TASK } from '../graphql/mutation'
 
 type RouterParams = {
   id: string;

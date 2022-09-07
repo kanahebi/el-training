@@ -1,35 +1,8 @@
 import React from 'react';
 import { gql, useMutation } from "@apollo/client";
 import { useNavigate, Link } from "react-router-dom";
-
-const CREATE_TASK = gql`
-  mutation CreateTask($name: String!, $description: String!) {
-    createTask(
-      input: {
-        name: $name,
-        description: $description
-      }
-    ){
-      task {
-        id
-        name
-        description
-        createdAt
-      }
-    }
-  }
-`;
-
-const GET_TASKS = gql`
-  query GetTasks {
-    tasks {
-      id
-      name
-      description
-      createdAt
-    }
-  }
-`;
+import { CREATE_TASK } from '../graphql/mutation'
+import { GET_TASKS } from '../graphql/query'
 
 export const NewTask = () => {
   const navigate = useNavigate();

@@ -1,36 +1,8 @@
 import React from 'react';
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { useParams, useNavigate, Link } from 'react-router-dom'
-
-const GET_TASK = gql`
-  query GetTask($id: ID!) {
-    task(id: $id) {
-      id
-      name
-      description
-      createdAt
-    }
-  }
-`;
-
-const UPDATE_TASK = gql`
-  mutation UpdateTask($id: ID!, $name: String!, $description: String!) {
-    updateTask(
-      input: {
-        id: $id
-        name: $name,
-        description: $description
-      }
-    ){
-      task {
-        id
-        name
-        description
-        createdAt
-      }
-    }
-  }
-`;
+import { GET_TASK } from '../graphql/query'
+import { UPDATE_TASK } from '../graphql/mutation'
 
 type RouterParams = {
   id: string;
