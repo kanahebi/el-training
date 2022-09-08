@@ -2,32 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation, gql } from "@apollo/client";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Modal } from "../components/Modal";
-
-const GET_TASK = gql`
-  query GetTask($id: ID!) {
-    task(id: $id) {
-      id
-      name
-      description
-    }
-  }
-`;
-
-const DELETE_TASK = gql`
-  mutation DeleteTask($id: ID!) {
-    deleteTask(
-      input: {
-        id: $id
-      }
-    ){
-      task {
-        id
-        name
-        description
-      }
-    }
-  }
-`;
+import { GET_TASK, GET_TASKS } from '../graphql/query'
+import { DELETE_TASK } from '../graphql/mutation'
 
 type RouterParams = {
   id: string;
@@ -44,8 +20,18 @@ export const TaskView = () => {
   const [deleteTask, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_TASK,
     {
       update(cache, { data }) {
+        const existingTasks: any = cache.readQuery({ query: GET_TASKS });
+        if(existingTasks) {
+          const newTasks = existingTasks!.tasks.filter((t:any) => (t.id !== data.deleteTask.task.id));
+          cache.writeQuery({
+            query: GET_TASKS,
+            data: {
+              tasks: newTasks
+            }
+          });
+        }
         navigate(`/tasks/`, { state: { alert: '削除しました。' }},);
-       }
+      }
     });
 
   const ShowModal = () => {

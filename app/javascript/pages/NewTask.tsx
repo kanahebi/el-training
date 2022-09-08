@@ -1,30 +1,28 @@
-import React from 'react'; 
+import React from 'react';
 import { gql, useMutation } from "@apollo/client";
 import { useNavigate, Link } from "react-router-dom";
-
-const CREATE_TASK = gql`
-  mutation CreateTask($name: String!, $description: String!) {
-    createTask(
-      input: {
-        name: $name,
-        description: $description
-      }
-    ){
-      task {
-        id
-        name
-        description
-      }
-    }
-  }
-`;
+import { CREATE_TASK } from '../graphql/mutation'
+import { GET_TASKS } from '../graphql/query'
 
 export const NewTask = () => {
   const navigate = useNavigate();
   let inputName: HTMLInputElement;
   let inputDescription: HTMLTextAreaElement;
   const [createTask, { loading, error }] = useMutation(CREATE_TASK, {
-    onCompleted(data) {
+    update(cache, { data }) {
+      const existingTasks: any = cache.readQuery({ query: GET_TASKS });
+      if(existingTasks) {
+        const newTask = data.createTask.task;
+        const newTasks = [...existingTasks?.tasks, newTask].sort(function(first, second){
+          if(first.createdAt > second.createdAt) return -1;
+          if(first.createdAt < second.createdAt) return 1;
+          return 0;
+        });
+        cache.writeQuery({
+          query: GET_TASKS,
+          data: { tasks: newTasks }
+        });
+      }
       navigate(`/tasks/${data['createTask']['task']['id']}`);
     }
   })

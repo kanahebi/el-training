@@ -2,32 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation, gql } from "@apollo/client";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Alert } from "../components/Alert";
-
-const GET_TASKS = gql`
-  query GetTasks {
-    tasks {
-      id
-      name
-      description
-    }
-  }
-`;
-
-const DELETE_TASK = gql`
-  mutation DeleteTask($id: ID!) {
-    deleteTask(
-      input: {
-        id: $id
-      }
-    ){
-      task {
-        id
-        name
-        description
-      }
-    }
-  }
-`;
+import { GET_TASKS } from '../graphql/query'
 
 interface State {
   alert: string;
@@ -39,19 +14,6 @@ export const Tasks = () => {
   const { alert } = (location.state as State) || {};
   const [showAlert, setShowAlert] = useState(false);
   const {loading, error, data} = useQuery(GET_TASKS);
-  const [deleteTask, { loading: mutationLoading, error: mutationError }] = useMutation(DELETE_TASK,
-    {
-      update(cache, { data }) {
-        const existingTasks: any = cache.readQuery({ query: GET_TASKS });
-        const newTasks = existingTasks!.tasks.filter((t:any) => (t.id !== data.deleteTask.task.id));
-        cache.writeQuery({
-          query: GET_TASKS,
-          data: {
-            tasks: newTasks
-          }
-        });
-       }
-    });
 
   const ShowTask = (id) => {
     navigate(`/tasks/${id}`, { state: { background: location }},);
@@ -63,7 +25,6 @@ export const Tasks = () => {
 
   if (loading) return (<div>'ロード中....'</div>);
   if (error) return (<div>`Error ${error.message}`</div>);
-  if (mutationError) return (<div>`Error ${mutationError.message}`</div>);
 
   return (
     <div className='main-content'>
