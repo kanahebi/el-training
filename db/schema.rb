@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_08_014107) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_08_021642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -20,6 +20,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_08_014107) do
     t.text "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "user_id"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -30,4 +32,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_08_014107) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "tasks", "users"
 end
