@@ -232,6 +232,9 @@ GEM
       rubocop (~> 1.31)
     ruby-progressbar (1.11.0)
     rubyzip (2.3.2)
+    seed-fu (2.3.9)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
     selenium-webdriver (4.4.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -297,6 +300,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  seed-fu
   selenium-webdriver
   sprockets-rails
   stimulus-rails
