@@ -20,6 +20,7 @@ const middlewareLink = new ApolloLink((operation, forward) => {
         document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
           ?.content ||
         null,
+      "Authorization": `Token ${sessionStorage.getItem("authToken")}`,
     },
   }));
 
