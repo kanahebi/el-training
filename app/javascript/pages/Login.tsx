@@ -16,8 +16,11 @@ export const Login = () => {
   const [createTask, { loading, error }] = useMutation(LOGIN, {
     update(cache, { data }) {
       sessionStorage.setItem("authToken", data.login.token);
-      if(from) navigate(from);
-      navigate("/");
+      if(from) {
+        navigate(from, { state: { loginAlert: true }});
+      } else {
+        navigate("/", { state: { loginAlert: true }});
+      }
     }
   })
 
@@ -48,7 +51,7 @@ export const Login = () => {
                   <input ref={node => {
                       inputEmail = node;
                     }}
-                    name="name"
+                    name="email"
                     type="text" className="form-control block
                     w-full
                     px-3
@@ -69,7 +72,7 @@ export const Login = () => {
                   <input ref={node => {
                       inputPassword = node;
                     }}
-                    name="email"
+                    name="password"
                     type="password" className="form-control block
                     w-full
                     px-3
