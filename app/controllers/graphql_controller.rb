@@ -1,4 +1,8 @@
 class GraphqlController < ApplicationController
+  include ActionController::HttpAuthentication::Token
+
+  before_action :authenticate_user
+
   # If accessing from outside this domain, nullify the session
   # This allows for outside API access while preventing CSRF attacks,
   # but you'll have to authenticate your user separately
@@ -9,14 +13,22 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
+      current_user: authenticate_user,
     }
     result = ElTrainingSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
     handle_error_in_development(e)
+  end
+
+  protected
+
+  def authenticate_user
+    token = token_and_options(request)&.first
+    return if token.blank?
+
+    User.find_by(auth_token: token)
   end
 
   private
