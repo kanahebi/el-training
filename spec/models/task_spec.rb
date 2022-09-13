@@ -4,12 +4,14 @@ RSpec.describe Task, type: :model do
   describe '#validate' do
     subject { described_class.new(params) }
 
+    let(:user) { create(:user) }
     let(:name) { 'Name' }
     let(:description) { 'Description' }
     let(:params) do
       {
         name:,
-        description:
+        description:,
+        user:
       }
     end
 

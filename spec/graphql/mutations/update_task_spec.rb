@@ -2,13 +2,20 @@ require 'rails_helper'
 
 RSpec.describe Mutations::UpdateTask do
   describe 'Mutations::UpdateTask' do
-    subject { ElTrainingSchema.execute(query, variables:) }
+    subject { ElTrainingSchema.execute(query, context:, variables:) }
 
     let(:query) { '' }
     let(:variables) { {} }
+    let(:user) { create(:user) }
+    let(:current_user) { user }
+    let(:context) {
+      {
+        current_user: current_user
+      }
+    }
 
     context 'UpdateTask Mutation' do
-      let!(:task) { create(:task) }
+      let!(:task) { create(:task, user: user) }
       let(:id) { task.id }
       let(:name) { '更新後のタスクの名前' }
       let(:description) { '更新後のタスクの内容' }
@@ -76,6 +83,30 @@ RSpec.describe Mutations::UpdateTask do
 
         it 'エラーが返ってくること' do
           expect(subject['errors'][0]['message']).to include("タスクの説明を入力してください")
+        end
+
+        it 'タスクが更新されていないこと' do
+          expect { subject }.not_to(change { task.reload.description })
+        end
+      end
+
+      context 'current_userが存在しない' do
+        let(:current_user) { nil }
+
+        it 'エラーが返ってくること' do
+          expect(subject['errors'][0]['message']).to include("ログインしてください。")
+        end
+
+        it 'タスクが更新されていないこと' do
+          expect { subject }.not_to(change { task.reload.description })
+        end
+      end
+
+      context '違うユーザーのタスク' do
+        let(:current_user) { create(:user) }
+
+        it 'エラーが返ってくること' do
+          expect(subject['errors'][0]['message']).to include("見つかりませんでした。")
         end
 
         it 'タスクが更新されていないこと' do
