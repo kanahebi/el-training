@@ -1,5 +1,5 @@
 module Mutations
-  class UpdateTask < BaseMutation
+  class UpdateTask < AuthMutation
     graphql_name 'UpdateTask'
 
     field :task, Types::TaskType, null: true
@@ -9,7 +9,8 @@ module Mutations
     argument :description, String, required: true
 
     def resolve(id:, name:, description:)
-      task = Task.find(id)
+      super
+      task = current_user.tasks.find(id)
       result = task.update(name:, description:)
       raise GraphQL::ExecutionError, task.errors.full_messages.join(", ") unless result
 

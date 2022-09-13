@@ -1,5 +1,5 @@
 module Mutations
-  class DeleteTask < BaseMutation
+  class DeleteTask < AuthMutation
     graphql_name 'DeleteTask'
 
     field :task, Types::TaskType, null: true
@@ -8,7 +8,8 @@ module Mutations
     argument :id, ID, required: true
 
     def resolve(id:)
-      task = Task.find(id)
+      super
+      task = current_user.tasks.find(id)
       task.destroy
       {
         task:,

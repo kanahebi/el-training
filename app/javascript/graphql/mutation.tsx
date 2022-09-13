@@ -35,7 +35,6 @@ export const CREATE_TASK = gql`
   }
 `;
 
-
 export const DELETE_TASK = gql`
   mutation DeleteTask($id: ID!) {
     deleteTask(
@@ -48,6 +47,19 @@ export const DELETE_TASK = gql`
         name
         description
       }
+    }
+  }
+`;
+
+export const LOGIN = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(
+      input: {
+        email: $email,
+        password: $password
+      }
+    ){
+      token
     }
   }
 `;
