@@ -30,7 +30,7 @@ export const TaskView = () => {
             }
           });
         }
-        navigate(`/tasks/`, { state: { alert: '削除しました。' }},);
+        navigate(`/tasks`, { state: { alert: '削除しました。' }},);
       }
     });
 
