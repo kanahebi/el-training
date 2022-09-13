@@ -11,7 +11,7 @@ module Resolvers
     private
 
     def login_required!
-      raise GraphQL::ExecutionError, 'login required!!' unless context[:current_user]
+      raise GraphQL::ExecutionError, 'ログインしてください。' unless current_user
     end
   end
 end
