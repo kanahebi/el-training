@@ -8,14 +8,14 @@ RSpec.describe Mutations::UpdateTask do
     let(:variables) { {} }
     let(:user) { create(:user) }
     let(:current_user) { user }
-    let(:context) {
+    let(:context) do
       {
-        current_user: current_user
+        current_user:
       }
-    }
+    end
 
     context 'UpdateTask Mutation' do
-      let!(:task) { create(:task, user: user) }
+      let!(:task) { create(:task, user:) }
       let(:id) { task.id }
       let(:name) { '更新後のタスクの名前' }
       let(:description) { '更新後のタスクの内容' }

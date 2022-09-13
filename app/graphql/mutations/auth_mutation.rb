@@ -1,6 +1,6 @@
 module Mutations
   class AuthMutation < BaseMutation
-    def resolve(**args)
+    def resolve(**_args)
       login_required!
     end
 

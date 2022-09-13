@@ -2,17 +2,17 @@ require 'rails_helper'
 
 RSpec.describe Mutations::Login do
   describe 'Mutations::Login' do
-    subject { ElTrainingSchema.execute(query, context: , variables:) }
+    subject { ElTrainingSchema.execute(query, context:, variables:) }
 
     let(:query) { '' }
     let(:variables) { {} }
-    let(:user) { create(:user, email: email, password: password) }
+    let(:user) { create(:user, email:, password:) }
     let(:current_user) { user }
-    let(:context) {
+    let(:context) do
       {
-        current_user: current_user
+        current_user:
       }
-    }
+    end
 
     context 'CreateTask Mutation' do
       let(:email) { 'user@example.com' }

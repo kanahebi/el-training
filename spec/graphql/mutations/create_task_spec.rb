@@ -2,17 +2,17 @@ require 'rails_helper'
 
 RSpec.describe Mutations::CreateTask do
   describe 'Mutations::CreateTask' do
-    subject { ElTrainingSchema.execute(query, context: , variables:) }
+    subject { ElTrainingSchema.execute(query, context:, variables:) }
 
     let(:query) { '' }
     let(:variables) { {} }
     let(:user) { create(:user) }
     let(:current_user) { user }
-    let(:context) {
+    let(:context) do
       {
-        current_user: current_user
+        current_user:
       }
-    }
+    end
 
     context 'CreateTask Mutation' do
       let(:name) { 'タスクの名前' }

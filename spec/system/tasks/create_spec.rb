@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'CreateTask', type: :system, js: true do
-  describe 'タスク作成' do  
+  describe 'タスク作成' do
     describe 'ログインしていない' do
       let(:visit_path) { "/tasks/new" }
-  
+
       it 'ログインページに遷移すること' do
         visit(visit_path)
         expect(page).to have_current_path "/login"
@@ -18,7 +18,7 @@ RSpec.describe 'CreateTask', type: :system, js: true do
       let(:name) { 'タスクの名前' }
       let(:description) { 'タスクの説明' }
 
-      context 'フォームの入力値が正常' do
+      context 'フォームの入力値が正常', :aggregate_failures do
         it 'タスク詳細ページに遷移すること' do
           login(user)
           visit(visit_path)

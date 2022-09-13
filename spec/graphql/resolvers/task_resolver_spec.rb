@@ -7,15 +7,15 @@ RSpec.describe Resolvers::TaskResolver do
       mutation.resolve(id:)
     end
 
-    let(:task) { create(:task, user: user) }
+    let(:task) { create(:task, user:) }
     let(:id) { task.id }
     let(:user) { create(:user) }
     let(:current_user) { user }
-    let(:context) {
+    let(:context) do
       {
-        current_user: current_user
+        current_user:
       }
-    }
+    end
 
     it 'タスクが返ってくること' do
       expect(subject).to eq(task)
@@ -25,7 +25,7 @@ RSpec.describe Resolvers::TaskResolver do
       let(:id) { 'ID1234' }
 
       it 'エラーが返ってくること' do
-        expect{ subject }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -33,7 +33,7 @@ RSpec.describe Resolvers::TaskResolver do
       let(:current_user) { nil }
 
       it 'エラーが返ってくること' do
-        expect{ subject }.to raise_error(GraphQL::ExecutionError)
+        expect { subject }.to raise_error(GraphQL::ExecutionError)
       end
     end
 
@@ -41,7 +41,7 @@ RSpec.describe Resolvers::TaskResolver do
       let(:current_user) { create(:user) }
 
       it 'エラーが返ってくること' do
-        expect{ subject }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

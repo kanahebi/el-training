@@ -8,14 +8,14 @@ RSpec.describe Mutations::DeleteTask do
     let(:variables) { {} }
     let(:user) { create(:user) }
     let(:current_user) { user }
-    let(:context) {
+    let(:context) do
       {
-        current_user: current_user
+        current_user:
       }
-    }
+    end
 
     context 'DeleteTask Mutation' do
-      let!(:task) { create(:task, user: user) }
+      let!(:task) { create(:task, user:) }
       let(:id) { task.id }
       let(:variables) do
         {

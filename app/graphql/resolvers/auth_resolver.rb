@@ -1,6 +1,6 @@
 module Resolvers
   class AuthResolver < BaseResolver
-    def resolve(**args)
+    def resolve(**_args)
       login_required!
     end
 

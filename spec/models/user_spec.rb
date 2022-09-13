@@ -36,7 +36,7 @@ RSpec.describe User, type: :model do
     end
 
     it '入力したパスワードがハッシュ化されていること' do
-      is_expected.not_to eq(password)
+      expect(subject).not_to eq(password)
     end
   end
 
@@ -50,7 +50,7 @@ RSpec.describe User, type: :model do
     let(:password) { 'password' }
 
     it 'パスワードが取得できないこと' do
-      is_expected.to be_blank
+      expect(subject).to be_blank
     end
   end
 end

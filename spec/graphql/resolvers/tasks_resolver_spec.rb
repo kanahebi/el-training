@@ -12,14 +12,14 @@ RSpec.describe Resolvers::TasksResolver do
     end
 
     let(:other_user_task) { create(:task, user: create(:user)) }
-    let(:task) { create(:task, user: user) }
+    let(:task) { create(:task, user:) }
     let(:user) { create(:user) }
     let(:current_user) { user }
-    let(:context) {
+    let(:context) do
       {
-        current_user: current_user
+        current_user:
       }
-    }
+    end
 
     it 'タスクの一覧が返ってくること' do
       expect(subject).to match_array(current_user.tasks)
@@ -33,7 +33,7 @@ RSpec.describe Resolvers::TasksResolver do
       let(:current_user) { nil }
 
       it 'エラーが返ってくること' do
-        expect{ subject }.to raise_error(GraphQL::ExecutionError)
+        expect { subject }.to raise_error(GraphQL::ExecutionError)
       end
     end
   end

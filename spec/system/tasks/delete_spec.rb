@@ -27,17 +27,17 @@ RSpec.describe 'DeleteTask', type: :system, js: true do
           expect(page).to have_text('本当に削除しますか？')
         end
 
-        it '確認ダイアログで削除を押下したら削除できること' do
+        it '確認ダイアログで削除を押下したら削除できること', :aggregate_failures do
           login(user)
           visit(visit_path)
           click_button '削除'
           find(".deleteButton").click
 
           expect(page).to have_current_path "/tasks"
-          expect(Task.find_by(id: id)).to be_blank
+          expect(Task.find_by(id:)).to be_blank
         end
 
-        it '確認ダイアログでキャンセルを押下したらダイアログを閉じること' do
+        it '確認ダイアログでキャンセルを押下したらダイアログを閉じること', :aggregate_failures do
           login(user)
           visit(visit_path)
           click_button '削除'
@@ -45,7 +45,7 @@ RSpec.describe 'DeleteTask', type: :system, js: true do
 
           expect(page).not_to have_text('本当に削除しますか？')
           expect(page).to have_current_path visit_path
-          expect(Task.find_by(id: id)).to eq(task)
+          expect(Task.find_by(id:)).to eq(task)
         end
       end
     end

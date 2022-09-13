@@ -8,11 +8,11 @@ RSpec.describe Types::QueryType do
     let(:variables) { {} }
     let(:user) { create(:user) }
     let(:current_user) { user }
-    let(:context) {
+    let(:context) do
       {
-        current_user: current_user
+        current_user:
       }
-    }
+    end
 
     context 'tasks' do
       before do
