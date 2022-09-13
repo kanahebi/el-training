@@ -38,6 +38,19 @@ RSpec.describe 'Session', type: :system, js: true do
         expect(page).to have_text('ログインできませんでした。')
       end
     end
+
+    context 'ログイン前にログインが必要なページにアクセス' do
+      let(:visit_before_login) { '/tasks/new' }
+
+      it 'ログイン後に該当ページへリダイレクトすること' do
+        visit visit_before_login
+        fill_in 'email', with: user.email
+        fill_in 'password', with: password
+        click_button 'ログイン'
+
+        expect(page).to have_current_path visit_before_login
+      end
+    end
   end
 
   describe 'ログアウト' do
