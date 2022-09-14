@@ -6,6 +6,7 @@ module Types
 
     field :task, resolver: Resolvers::TaskResolver
     field :tasks, resolver: Resolvers::TasksResolver
+    field :tasks_paginate, resolver: Resolvers::TasksPaginateResolver
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
