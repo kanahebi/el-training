@@ -31,6 +31,7 @@ gem "cssbundling-rails"
 gem "jbuilder"
 
 gem 'graphql'
+gem 'kaminari'
 
 gem 'nokogiri', '1.13.1'
 
@@ -81,7 +82,7 @@ group :development do
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
 
-  gem "graphiql-rails"
+  gem 'graphiql-rails', git: 'https://github.com/rmosolgo/graphiql-rails', branch: 'master'
 end
 
 group :test do
