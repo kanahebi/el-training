@@ -1,7 +1,7 @@
 user1 = User.find_by(email: 'user1@example.com')
 user2 = User.find_by(email: 'user2@example.com')
 
-5.times do |i|
+20.times do |i|
   Task.seed(:name) do |s|
     s.user_id = user1.id
     s.name = "#{user1.name}のタスク#{i+1}"

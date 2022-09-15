@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery, useMutation, gql } from "@apollo/client";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { useNavigate, useLocation, Link, useSearchParams } from "react-router-dom";
 import { Alert } from "../components/Alert";
-import { GET_TASKS } from '../graphql/query'
+import { Paginate } from "../components/Paginate";
+import { GET_TASKS_PAGINATE } from '../graphql/query'
 
 interface State {
   alert: string;
@@ -11,9 +12,16 @@ interface State {
 export const Tasks = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get("page")) || 1;
   const { alert } = (location.state as State) || {};
   const [showAlert, setShowAlert] = useState(false);
-  const {loading, error, data} = useQuery(GET_TASKS);
+  const { loading, error, data } = useQuery(GET_TASKS_PAGINATE, {
+    variables: {
+      page: page,
+      per: 5
+    },
+  });
 
   const ShowTask = (id) => {
     navigate(`/tasks/${id}`, { state: { background: location }},);
@@ -52,7 +60,7 @@ export const Tasks = () => {
             ease-in-out"
           >タスクを追加</Link>
         </div>
-        {data.tasks.length ? (data.tasks.map(task => (
+        {data.tasksPaginate.tasks.length ? (data.tasksPaginate.tasks.map(task => (
           <div className="m-5" key={ task.id }>
             <div className="block p-6 rounded-lg shadow-lg bg-white max-w-sm mx-auto" onClick={() => {
               ShowTask(task.id);
@@ -64,6 +72,7 @@ export const Tasks = () => {
         ))) : (
           <div>タスクはありません。</div>
         )}
+        {data.tasksPaginate.tasks.length != 0 ? <Paginate pageInfo={data.tasksPaginate.pageInfo} /> : <></>}
       </div>
     </div>
   )
