@@ -6,6 +6,7 @@ import { Tasks } from './pages/Tasks';
 import { TaskView } from './pages/TaskView';
 import { NewTask } from './pages/NewTask';
 import { EditTask } from './pages/EditTask';
+import { NotFound } from './pages/NotFound';
 
 export const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ export const AppRoutes = () => {
           <Route path="/tasks/:id/edit" element={<EditTask />} />
           <Route path="/tasks/new" element={<NewTask />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes >
     </>
   )
